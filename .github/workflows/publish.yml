@@ -1,0 +1,66 @@
+name: Publish
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        description: "Runner to use.  Default is 'ubuntu-latest'"
+        required: false
+        type: string
+        default: "ubuntu-latest"
+      access:
+        description: "The access for the published package (public or restricted)"
+        required: false
+        type: string
+        default: "publish"
+      nodeVersionFile:
+        description: "file to read node version from"
+        required: false
+        type: string
+        default: ".nvmrc"
+      npmjsPublishToken:
+        description: "NPMJS token with publishing permissions"
+        required: false
+        type: string
+        default: "NPMJS_PUBLISH_TOKEN"
+      timeoutMinutes:
+        description: "Timeout in minutes"
+        required: false
+        type: string
+        default: "5"
+jobs:
+  publish:
+    name: Publish
+    runs-on: ${{ inputs.runsOn }}
+    timeout-minutes: ${{ fromJSON(inputs.timeoutMinutes) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ inputs.nodeVersionFile }}
+      - name: Get yarn cache directory
+        id: get-yarn-cache
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: Restore yarn cache directory
+        id: restore-yarn-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.get-yarn-v3-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: yarn v3/v4 install
+        run: yarn install --immutable
+        shell: bash
+      - name: Publish
+        run: |
+          yarn config set npmAuthToken ${{ secrets[inputs.npmjsPublishToken] }} --home
+          yarn npm publish --access ${{ inputs.access }}
+      - name: Summary
+        if: success()
+        run: |
+          name=$(jq '.name' package.json)
+          version=$(jq .version package.json)
+          echo "### Published ${name} version ${version} to NPM" >> "$GITHUB_STEP_SUMMARY"
