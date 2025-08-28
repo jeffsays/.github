@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ inputs.runsOn }}
     timeout-minutes: ${{ fromJSON(inputs.timeoutMinutes) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Node
         id: setup-node
         uses: actions/setup-node@v4
