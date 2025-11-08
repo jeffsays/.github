@@ -4,7 +4,6 @@
 
 .github-token
 
-
 .zcompdump
 .zcompdump*
 
@@ -126,7 +125,6 @@ Thumbs.db
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*

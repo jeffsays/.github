@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["@jeffsays/tsconfig/esnext"],
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "${configDir}/.markdownlint-cli2.js",
+    "${configDir}/commitlint.config.ts",
+    "${configDir}/eslint.config.ts",
+    "${configDir}/jest.config.ts",
+    "${configDir}/lint-staged.config.ts"
+  ]
+}
