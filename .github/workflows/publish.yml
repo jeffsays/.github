@@ -41,7 +41,8 @@ jobs:
           node-version-file: ${{ inputs.nodeVersionFile }}
       - name: Get yarn cache directory
         id: get-yarn-cache
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        run: |
+          echo "dir=$(yarn config get cacheFolder)" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: Restore yarn cache directory
         id: restore-yarn-cache
@@ -58,6 +59,7 @@ jobs:
         run: |
           yarn config set npmAuthToken ${{ secrets[inputs.npmjsPublishToken] }} --home
           yarn npm publish --access ${{ inputs.access }}
+        shell: bash
       - name: Summary
         if: success()
         run: |
