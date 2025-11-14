@@ -40,7 +40,7 @@ jobs:
           ref: ${{ inputs.ref }}
       - name: Setup Node
         id: setup-node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version-file: ${{ inputs.nodeVersionFile }}
       - name: Enable Corepack
