@@ -22,6 +22,11 @@ on:
         required: false
         type: string
         default: ""
+      yarn:
+        description: "Ref to checkout.  Should be blank in most cases to let the system determine"
+        required: false
+        type: string
+        default: ""
 jobs:
   publish:
     name: Publish
@@ -38,6 +43,8 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version-file: ${{ inputs.nodeVersionFile }}
+      - name: Enable Corepack
+        run: corepack enable
       - name: Get yarn cache directory
         id: get-yarn-cache
         run: |
