@@ -28,8 +28,8 @@ on:
         type: string
         default: ""
 jobs:
-  publish:
-    name: Publish
+  unit:
+    name: Unit
     runs-on: ${{ inputs.runsOn }}
     timeout-minutes: ${{ fromJSON(inputs.timeoutMinutes) }}
     steps:
