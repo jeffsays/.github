@@ -35,14 +35,14 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.ref }}
       - name: Enable Corepack
         run: corepack enable
       - name: Setup Node
         id: setup-node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version-file: ${{ inputs.nodeVersionFile }}
       - name: Get yarn cache directory
